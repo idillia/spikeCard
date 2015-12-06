@@ -1,0 +1,48 @@
+<doctype html>
+<html>
+  <head>
+    
+    <link rel="stylesheet" type="text/css" href="bower_components/jquery-ui/themes/smoothness/jquery-ui.min.css">
+     <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <script  type="text/javascript" src="script.js"></script>
+    <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="bower_components/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+  </head>
+  <body ng-app="bridgeApp">
+    <div ng-controller="cardsCtrl" class="container-fluid ">
+      
+      <div class="row add-margin">
+        <div class="col-md-4">
+          <div score></div>
+        </div>
+        <div class="col-md-4">
+          <img src="img/cards/{{card.value}}.svg" class="playing-svg-card" ng-repeat="card in deck.north.cards" ng-click="selectCardNorth($index)">
+        </div> 
+        <div class="col-md-4"></div>
+      </div>
+      <div class="row add-margin">
+        <div class="col-md-4 text-right">
+          <img src="img/cards/{{card.value}}.svg" class="playing-svg-card" ng-repeat="card in deck.east.cards" ng-click="selectCardEast($index)">
+        </div>
+        <div class="col-md-4">
+          <div my-card ng-click="takeTrick()"></div>
+        </div>
+        <div class="col-md-4">
+          <img src="img/cards/{{card.value}}.svg" class="playing-svg-card" ng-repeat="card in deck.west.cards" ng-click="selectCardWest($index)">
+        </div> 
+      </div>
+      <div class="row add-margin"> 
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+          <img src="img/cards/{{card.value}}.svg" class="playing-svg-card" ng-repeat="card in deck.south.cards" ng-click="selectCardSouth($index)">
+        </div> 
+        <div class="col-md-4"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

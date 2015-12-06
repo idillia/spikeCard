@@ -1,0 +1,19 @@
+{
+  "name": "spikecard",
+  "description": "resizable playing card",
+  "main": "index.js",
+  "authors": [
+    "idillia <mila.antonova@gmail.com>"
+  ],
+  "license": "ISC",
+  "moduleType": [],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
