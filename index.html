@@ -17,12 +17,15 @@
       
       <div class="row add-margin">
         <div class="col-md-4">
-          <div score></div>
+          <score info='score'></score>
         </div>
         <div class="col-md-4">
           <img src="img/cards/{{card.value}}.svg" class="playing-svg-card" ng-repeat="card in deck.north.cards" ng-click="selectCardNorth($index)">
         </div> 
-        <div class="col-md-4"></div>
+        <div class="col-md-4">
+          <button btn-attr-click data-class="spades">&spades;</button><button btn-attr-click data-class="hearts">&hearts;</button><button btn-attr-click data-class="diamond">&diams;</button><button btn-attr-click data-class="club">&clubs;</button>
+          
+        </div>
       </div>
       <div class="row add-margin">
         <div class="col-md-4 text-right">
