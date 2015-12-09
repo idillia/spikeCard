@@ -34,8 +34,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
   })
   .controller('cardsCtrl', ['$scope', 'gameState', function($scope, gameState){
-    console.log(gameState);
-    var zIdx;
+    // console.log(gameState);
+    var zIdx=0;
     var east = [], west= [], south = [], north =[];  
     var Card = function(value, name, suit, zIndex) {
       this.value= value;
@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         north.cards = this.cards.slice(39,52);
         north.sort();
       }
-      console.log(north);
+      // console.log(north);
       return {east, west, south, north};
     }
     $scope.deck = suffleDeck();
@@ -100,36 +100,44 @@ document.addEventListener("DOMContentLoaded", function(event) {
     $scope.selectCardNorth = function(aCard) {
       $scope.chosenCardNorth = $scope.deck.north.cards.splice(aCard,1); 
       $scope.chosenCardNorth[0].zIndex = zIdx++;
-      console.log($scope.chosenCardNorth);
+      console.log(aCard);
     }
 
     $scope.selectCardEast = function(aCard) {
       $scope.chosenCardEast = $scope.deck.east.cards.splice(aCard,1);
       $scope.chosenCardEast[0].zIndex = zIdx++;
+      console.log(aCard);
+
     }
 
     $scope.selectCardWest = function(aCard) {
       $scope.chosenCardWest = $scope.deck.west.cards.splice(aCard,1);
       $scope.chosenCardWest[0].zIndex = zIdx++;
+      console.log(aCard);
+
     }
 
     $scope.selectCardSouth = function(aCard) {
       $scope.chosenCardSouth= $scope.deck.south.cards.splice(aCard,1);
       $scope.chosenCardSouth[0].zIndex = zIdx++;
+      console.log(aCard);
+
     }
 
     var winningTrick = function(trump) {
       var ranks = [2, 3, 4, 5, 6, 7, 8, 9, 10, "jack", "queen", "king", "ace"];
       var suits = ["diamonds", "clubs", "hearts", "spades"];
-      console.log($scope.chosenCardNorth);
+
       var n = $scope.chosenCardNorth[0];
+      console.log(n);
       var e = $scope.chosenCardEast[0];
       var w = $scope.chosenCardWest[0];
       var s = $scope.chosenCardSouth[0];
-      console.log(n.suit, e.name, w, s);
+
+
       var winner;
+
       if (((n.suit == w.suit) && (n.suit == e.suit)) && (n.suit == s.suit)) {
-        console.log('all one suit');
         if (ranks.indexOf(n.name) > ranks.indexOf(e.name) && ranks.indexOf(n.name) > ranks.indexOf(w.name) && ranks.indexOf(n.name) > ranks.indexOf(s.name)) {
           winner = 'nW';
         } else if (ranks.indexOf(s.name) > ranks.indexOf(n.name) && ranks.indexOf(s.name) > ranks.indexOf(w.name) && ranks.indexOf(s.name) > ranks.indexOf(e.name)) {
@@ -148,7 +156,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     $scope.score = {ns: 0, ew: 0};
     $scope.takeTrick = function() {
-      var winningPair = winningTrick();
+      var winningPair = winningTrick(gameState);
       if (winningPair == 'nW' || winningPair == 'sW') {
          $scope.score.ns++;
       } else {
@@ -158,6 +166,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       $scope.chosenCardEast = '';
       $scope.chosenCardWest = '';
       $scope.chosenCardSouth = '';
+      zIdx=0;
     }     
   }])
   .directive('myCard', function(){
@@ -166,11 +175,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
   })
   .directive('score', function($compile) {
-    var linker = function(scope, element, attr){
-    }
     return {
       restrict: "E",
-      link: linker,
       scope: {
         content: '=info'
       },
