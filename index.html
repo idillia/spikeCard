@@ -10,6 +10,8 @@
     <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="bower_components/jquery-ui/jquery-ui.min.js"></script>
     <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="node_modules/underscore/underscore.js"></script>
+
 
   </head>
   <body ng-app="bridgeApp">
@@ -20,7 +22,7 @@
           <score info='score'></score>
         </div>
         <div class="col-md-4">
-          <img src="img/cards/{{card.value}}.svg" class="playing-svg-card" ng-repeat="card in deck.north.cards" ng-click="selectCardNorth($index)">
+          <img src="img/cards/{{card.value}}.svg" class="playing-svg-card" ng-repeat="card in deck.n.cards" ng-click="selectCardNorth($index)">
         </div> 
         <div class="col-md-4">
           <button btn-attr-click data-class="spades">&spades;</button><button btn-attr-click data-class="hearts">&hearts;</button><button btn-attr-click data-class="diamond">&diams;</button><button btn-attr-click data-class="club">&clubs;</button></button><button btn-attr-click data-class="notrump">NT</button>
@@ -29,19 +31,19 @@
       </div>
       <div class="row add-margin">
         <div class="col-md-4 text-right">
-          <img src="img/cards/{{card.value}}.svg" class="playing-svg-card" ng-repeat="card in deck.east.cards" ng-click="selectCardEast($index)">
+          <img src="img/cards/{{card.value}}.svg" class="playing-svg-card" ng-repeat="card in deck.e.cards" ng-click="selectCardEast($index)">
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4" style="position:relative">
           <div my-card ng-click="takeTrick()"></div>
         </div>
         <div class="col-md-4">
-          <img src="img/cards/{{card.value}}.svg" class="playing-svg-card" ng-repeat="card in deck.west.cards" ng-click="selectCardWest($index)">
+          <img src="img/cards/{{card.value}}.svg" class="playing-svg-card" ng-repeat="card in deck.w.cards" ng-click="selectCardWest($index)">
         </div> 
       </div>
       <div class="row add-margin"> 
         <div class="col-md-4"></div>
         <div class="col-md-4">
-          <img src="img/cards/{{card.value}}.svg" class="playing-svg-card" ng-repeat="card in deck.south.cards" ng-click="selectCardSouth($index)">
+          <img src="img/cards/{{card.value}}.svg" class="playing-svg-card" ng-repeat="card in deck.s.cards" ng-click="selectCardSouth($index)">
         </div> 
         <div class="col-md-4"></div>
       </div>
