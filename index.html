@@ -22,10 +22,10 @@
           <score info='score'></score>
         </div>
         <div class="col-md-4">
-          <img src="img/cards/{{card.value}}.svg" class="playing-svg-card" ng-repeat="card in deck.n.cards" ng-click="selectCardNorth($index)">
+          <img src="img/cards/{{card.value}}.svg" class="playing-svg-card" ng-repeat="card in deck.n.cards" ng-click="selectCard($index)" >
         </div> 
         <div class="col-md-4">
-          <button btn-attr-click data-class="spades">&spades;</button><button btn-attr-click data-class="hearts">&hearts;</button><button btn-attr-click data-class="diamond">&diams;</button><button btn-attr-click data-class="club">&clubs;</button></button><button btn-attr-click data-class="notrump">NT</button>
+          <button btn-trump-click data-class="spades">&spades;</button><button btn-trump-click data-class="hearts">&hearts;</button><button btn-trump-click data-class="diamond">&diams;</button><button btn-trump-click data-class="club">&clubs;</button></button><button btn-trump-click data-class="notrump">NT</button>
           
         </div>
       </div>
@@ -34,10 +34,10 @@
           <img src="img/cards/{{card.value}}.svg" class="playing-svg-card" ng-repeat="card in deck.e.cards" ng-click="selectCardEast($index)">
         </div>
         <div class="col-md-4" style="position:relative">
-          <div my-card ng-click="takeTrick()"></div>
+          <div my-card ng-click="takeTrick()" style="position:relative;"></div>
         </div>
-        <div class="col-md-4">
-          <img src="img/cards/{{card.value}}.svg" class="playing-svg-card" ng-repeat="card in deck.w.cards" ng-click="selectCardWest($index)">
+        <div class="col-md-4" id="west">
+          <img src="img/cards/{{card.value}}.svg" class="playing-svg-card" ng-repeat="card in deck.w.cards" ng-click="selectCardWest($index);">
         </div> 
       </div>
       <div class="row add-margin"> 

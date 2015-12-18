@@ -18,31 +18,43 @@ document.addEventListener("DOMContentLoaded", function(event) {
   resize();
 
   angular.module('bridgeApp', [])
-  .directive('btnAttrClick', ['gameState', function(gameState){
+  .directive('btnTrumpClick', ['gameState', function(gameState){
     return {
       link: function(scope, element, attr) {
         element.on('click', function(){
+          console.log("trump called")
           gameState.trumpSuit = attr.class;
+          console.log(gameState)
         })
       }
     }
   }])
-
+  // .directive('btnPositionClick', ['gameState', function(gameState){
+  //   return {
+  //     restrict: "A",
+  //     link: function(scope, element, attr) {
+  //       element.on('click', function(){
+  //         console.log("position called")
+  //         gameState.position = attr.id;
+  //         console.log(gameState);
+  //       })
+  //     }
+  //   }
+  // }])
   .factory('gameState', function(){
     return {
       trumpSuit: null
+      // position: null
     }
   })
   .controller('cardsCtrl', ['$scope', 'gameState', function($scope, gameState){
-    // console.log(gameState);
     var zIdx = 0;
-    // var east = [], west= [], south = [], north =[];  
     var Card = function(value, rank, suit, zIndex, dir) {
       this.value = value;
       this.rank = rank;
       this.suit = suit;
       this.zIndex = zIndex || 0;
-      this.dir = dir;
+      this.dir = dir || "";
     };
 
     var Hand = function(cards) {
@@ -63,11 +75,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
       });
     };
 
-    var Position = function(n,s,e,w){ 
+    var Position = function(n,s,e,w, trick){ 
       this.n = n;
       this.s = s;
       this.e = e;
       this.w = w;
+      this.trick;
     }
 
     var suffleDeck = function() {
@@ -90,7 +103,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
         position.e = new Hand();
         position.e.cards = this.cards.slice(0,13);
         position.e.sort();
-
         position.w = new Hand();
         position.w.cards = cards.slice(13,26);
         position.w.sort();
@@ -105,18 +117,31 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
     $scope.deck = suffleDeck();
 
-    console.log($scope.deck);
+    var setPosition = function(obj) {
+      for (var k in obj) {
+        for (var i = 0; i<obj[k].cards.length; i++) {
+        obj[k].cards[i].dir = k;
+        }
+      }
+      return obj;
+    }
 
-    
-    $scope.selectCardNorth = function(aCard) {
-      $scope.chosenCardNorth = $scope.deck.n.cards.splice(aCard,1); 
+    setPosition($scope.deck);
+
+    console.log($scope.deck.n)
+
+    $scope.selectCard = function(aCard) {
+      $scope.chosenCardNorth = $scope.deck.n.cards.splice(aCard,1);
       $scope.chosenCardNorth[0].zIndex = zIdx++;
+      console.log($scope.chosenCardNorth[0].dir);
+
       console.log(aCard);
     }
 
     $scope.selectCardEast = function(aCard) {
       $scope.chosenCardEast = $scope.deck.e.cards.splice(aCard,1);
       $scope.chosenCardEast[0].zIndex = zIdx++;
+
       console.log(aCard);
 
     }
@@ -138,12 +163,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     $scope.score = {ns: 0, ew: 0};
     $scope.takeTrick = function() {
-      var winningPair = winningTrick(gameState);
-      if (winningPair == 'nW' || winningPair == 'sW') {
-         $scope.score.ns++;
-      } else {
-         $scope.score.ew++;
-      }
+      console.log(gameState);
+      // var winningPair = winningTrick(gameState);
+      // if (winningPair == 'nW' || winningPair == 'sW') {
+      //    $scope.score.ns++;
+      // } else {
+      //    $scope.score.ew++;
+      // }
       $scope.chosenCardNorth = '';
       $scope.chosenCardEast = '';
       $scope.chosenCardWest = '';
@@ -153,7 +179,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   }])
   .directive('myCard', function(){
     return {
-      template: '<img src="img/cards/{{card.value}}.svg" style="width:100px; z-index: {{card.zIndex}}; position: relative;" ng-repeat="card in chosenCardWest"><img src="img/cards/{{card.value}}.svg" style=" top: -30px; width:100px; z-index: {{card.zIndex}}; position: relative; left:-40px;" ng-repeat="card in chosenCardNorth"><img src="img/cards/{{card.value}}.svg" style="width:100px; z-index: {{card.zIndex}}; position: relative; top: -10px; left:-95px;" ng-repeat="card in chosenCardEast"><img src="img/cards/{{card.value}}.svg" style="width:100px; z-index: {{card.zIndex}}; position: relative; top: 40px; left:-250px;" ng-repeat="card in chosenCardSouth">'
+      template: '<img src="img/cards/{{card.value}}.svg" style="width:100px; z-index: {{card.zIndex}}; position: absolute; top:0px; right:250px;" ng-repeat="card in chosenCardWest"><img src="img/cards/{{card.value}}.svg" style="width:100px; z-index: {{card.zIndex}}; position: absolute; top: -45px; left:250px;" ng-repeat="card in chosenCardNorth"><img src="img/cards/{{card.value}}.svg" style="width:100px; z-index: {{card.zIndex}}; position: absolute; top: -10px; left:205px;" ng-repeat="card in chosenCardEast"><img src="img/cards/{{card.value}}.svg" style="width:100px; z-index: {{card.zIndex}}; position: absolute; top: 20px; left:250px;" ng-repeat="card in chosenCardSouth">'
     }
   })
   .directive('score', function($compile) {
