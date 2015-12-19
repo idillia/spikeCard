@@ -29,18 +29,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
       }
     }
   }])
-  // .directive('btnPositionClick', ['gameState', function(gameState){
-  //   return {
-  //     restrict: "A",
-  //     link: function(scope, element, attr) {
-  //       element.on('click', function(){
-  //         console.log("position called")
-  //         gameState.position = attr.id;
-  //         console.log(gameState);
-  //       })
-  //     }
-  //   }
-  // }])
   .factory('gameState', function(){
     return {
       trumpSuit: null
@@ -100,12 +88,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
       } 
       for (var l = 0; l < this.cards.length; l++){
         var position = new Position();
-        position.e = new Hand();
-        position.e.cards = this.cards.slice(0,13);
-        position.e.sort();
         position.w = new Hand();
-        position.w.cards = cards.slice(13,26);
+        position.w.cards = this.cards.slice(0,13);
         position.w.sort();
+        position.e = new Hand();
+        position.e.cards = cards.slice(13,26);
+        position.e.sort();
         position.s = new Hand();
         position.s.cards = cards.slice(26,39);
         position.s.sort();
@@ -116,6 +104,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
       return position;
     }
     $scope.deck = suffleDeck();
+    $scope.trick = [];
+    $scope.score = {ns: 0, ew: 0};
 
     var setPosition = function(obj) {
       for (var k in obj) {
@@ -128,58 +118,134 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     setPosition($scope.deck);
 
-    console.log($scope.deck.n)
-
-    $scope.selectCard = function(aCard) {
+    $scope.selectCardNorth = function(aCard) {
       $scope.chosenCardNorth = $scope.deck.n.cards.splice(aCard,1);
       $scope.chosenCardNorth[0].zIndex = zIdx++;
-      console.log($scope.chosenCardNorth[0].dir);
-
-      console.log(aCard);
+      $scope.trick.push($scope.chosenCardNorth);
     }
 
     $scope.selectCardEast = function(aCard) {
       $scope.chosenCardEast = $scope.deck.e.cards.splice(aCard,1);
       $scope.chosenCardEast[0].zIndex = zIdx++;
-
-      console.log(aCard);
-
+      $scope.trick.push($scope.chosenCardEast); 
     }
 
     $scope.selectCardWest = function(aCard) {
       $scope.chosenCardWest = $scope.deck.w.cards.splice(aCard,1);
       $scope.chosenCardWest[0].zIndex = zIdx++;
-      console.log(aCard);
-
+      $scope.trick.push($scope.chosenCardWest);
     }
-
+    
     $scope.selectCardSouth = function(aCard) {
       $scope.chosenCardSouth= $scope.deck.s.cards.splice(aCard,1);
       $scope.chosenCardSouth[0].zIndex = zIdx++;
-      console.log(aCard);
+      $scope.trick.push($scope.chosenCardSouth);
+      var be = _.flatten($scope.trick);
+      console.log(JSON.stringify(be));
+    }  
 
+    //Finding out winning card in a trick    
+    var whichLeadingCard = function(trick) {
+      var leadingSuit = '';
+      for (var key in trick) {
+        if (trick[key].zIndex === 0) {
+          leadingSuit = trick[key].suit;
+        }
+     }
+      return leadingSuit;
+    };
+    // console.log(whichLeadingCard(hand));
+    var whichWinnerByRank = function(trick) {
+      var max = 0
+      var higherRankPosition = '';
+      for (var key in trick) {
+        var rank = trick[key].rank;
+        if (ranks.indexOf(rank) >= max) {
+          max = ranks.indexOf(rank);
+          higherRankPosition = trick[key];
+        } else {
+        }
+      }    
+      return higherRankPosition;
+    };
+    // console.log("whichWinnerByRank ", whichWinnerByRank(hand));
+    var allSuitsEqual = function(trick) {
+      var leadingCard = whichLeadingCard(trick);
+      var isAllEqual = true;
+      for (var key in trick) {
+        if (trick[key].suit != leadingCard ) {
+          isAllEqual = false;
+        }  
+      }
+      return isAllEqual;
+    };
+    // console.log("allSuitsEqual ", allSuitsEqual(hand));
+    var extractTrumps = function(trick, trump){
+      var newTrick = trick;
+      for (var key in trick) {
+        if (newTrick[key].suit !== trump) {
+          delete newTrick[key];
+        }
+      }
+      return newTrick;
     }
-      
+    // console.log(extractTrumps(hand, koz));
+    var isTrump = function(trick, trump) {
+      var isKoz = false;
+      for (var key in trick) {
+        if (trick[key].suit == trump ) {
+          isKoz = true;
+        }  
+      }
+      return isKoz;
+    }
+    // console.log(isTrump(hand, koz));
+    var extractMachedSuits = function(trick) {
+      var leadingCard = whichLeadingCard(trick);
+      var newTrick = trick;
+      for (var key in trick) {
+        if (newTrick[key].suit !== leadingCard) {
+          delete newTrick[key];
+        }
+      }
+      return newTrick;
+    }
+    // console.log(extractMachedSuits(hand));
 
-    $scope.score = {ns: 0, ew: 0};
-    $scope.takeTrick = function() {
-      console.log(gameState);
-      // var winningPair = winningTrick(gameState);
-      // if (winningPair == 'nW' || winningPair == 'sW') {
-      //    $scope.score.ns++;
-      // } else {
-      //    $scope.score.ew++;
-      // }
+    var takeTrick = function(trick, trump) {
+      var winner='';
+      if (allSuitsEqual(trick)) {
+        winner = whichWinnerByRank(trick);
+      } else if (isTrump(trick,trump)) { 
+        console.log("trump here");
+        var ex = extractTrumps(trick, trump);
+        winner = whichWinnerByRank(ex);
+      } else {
+        console.log(" NO trump here");
+        winner = whichWinnerByRank(extractMachedSuits(trick));
+      }
       $scope.chosenCardNorth = '';
       $scope.chosenCardEast = '';
       $scope.chosenCardWest = '';
       $scope.chosenCardSouth = '';
+      $scope.trick = [];
       zIdx=0;
-    }     
+
+      if (winner.dir === "s" || winner.dir === "n") {
+        $scope.score.ns++;
+      } else {
+        $scope.score.ew++;
+      }
+      return winner.dir; 
+    } 
+
+    $scope.Trick  = function(){   
+      console.log("winningTrick ", takeTrick(_.flatten($scope.trick), gameState.trumpSuit))  
+    }
   }])
   .directive('myCard', function(){
     return {
-      template: '<img src="img/cards/{{card.value}}.svg" style="width:100px; z-index: {{card.zIndex}}; position: absolute; top:0px; right:250px;" ng-repeat="card in chosenCardWest"><img src="img/cards/{{card.value}}.svg" style="width:100px; z-index: {{card.zIndex}}; position: absolute; top: -45px; left:250px;" ng-repeat="card in chosenCardNorth"><img src="img/cards/{{card.value}}.svg" style="width:100px; z-index: {{card.zIndex}}; position: absolute; top: -10px; left:205px;" ng-repeat="card in chosenCardEast"><img src="img/cards/{{card.value}}.svg" style="width:100px; z-index: {{card.zIndex}}; position: absolute; top: 20px; left:250px;" ng-repeat="card in chosenCardSouth">'
+      template: '<img src="img/cards/{{card.value}}.svg" style="width:100px; z-index: {{card.zIndex}}; position: absolute; top:-10px; left:200px;" ng-repeat="card in chosenCardWest"><img src="img/cards/{{card.value}}.svg" style="width:100px; z-index: {{card.zIndex}}; position: absolute; top: -45px; left:250px;" ng-repeat="card in chosenCardNorth"><img src="img/cards/{{card.value}}.svg" style="width:100px; z-index: {{card.zIndex}}; position: absolute; top: 0px; right:275px;" ng-repeat="card in chosenCardEast"><img src="img/cards/{{card.value}}.svg" style="width:100px; z-index: {{card.zIndex}}; position: absolute; top: 20px; left:250px;" ng-repeat="card in chosenCardSouth">'
     }
   })
   .directive('score', function($compile) {
