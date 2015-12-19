@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       svgCard.forEach(function(el, i, arr) {
         el.style.width = window.innerWidth/20;
         el.style.height = window.innerWidth/15;
-        el.style.marginLeft = -70.5;
+        el.style.marginLeft = -70.5 + "px";
         lastResizedWidth = window.innerWidth;
       });
     }
