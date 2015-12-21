@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       }
       return obj;
     }
-
+    console.log(JSON.stringify($scope.deck));
     setPosition($scope.deck);
 
     $scope.selectCardNorth = function(aCard) {
