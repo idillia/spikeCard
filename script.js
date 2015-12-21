@@ -47,6 +47,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     var Hand = function(cards) {
       this.cards = cards || [];
+      this.leader = "w" || "";
+      this.declare = "s";
+      this.dealer = "s";
       this.push = function(el) {
         this.cards.push(el);
       }

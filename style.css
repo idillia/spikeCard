@@ -1,46 +1,45 @@
 body {
   font-size: 2.5em;
 } 
-
-.playing-svg-card {
-  
-}
 .add-margin {
   margin-top: 2em;
 }
 .north-arrow {
+   top:100px;
+   left:185px;
    width: 0;
    height: 0;
    border-style: solid;
    border-width: 0 20px 34.6px 20px;
    border-color: transparent transparent #55ff00 transparent;
-
 }
-.east-card {
+.east-arrow {
+  top:100px;
+  left:185px;
   width: 0;
   height: 0;
   border-style: solid;
-  border-width: 0 100px 173.2px 100px;
-  border-color: transparent transparent #55ff00 transparent;
-  
+  border-width: 20px 0 20px 34.6px;
+  border-color: transparent transparent transparent #55ff00;
 }
-.west-card {
+.west-arrow {
+  top:100px;
+  left:185px;
   width: 0;
   height: 0;
   border-style: solid;
-  border-width: 100px 173.2px 100px 0;
-  border-color: transparent #55ff00 transparent transparent;
-  
+  border-width: 20px 34.6px 20px 0;
+  border-color: transparent #55ff00 transparent transparent; 
 }
-.south-card {
+.south-arrow {
+  top:100px;
+  left:185px;
   width: 0;
   height: 0;
   border-style: solid;
   border-width: 34.6px 20px 0 20px;
   border-color: #55ff00 transparent transparent transparent;
-
 }
-
 .hvr-float {
   display: inline-block;
   vertical-align: middle;
@@ -57,8 +56,11 @@ body {
 .hvr-float:active {
   transform: translateY(-10px);
 }
-
 .west-cards-pad {
   padding-left: 100px;
+}
+.trick-pad-arrow {
+  padding-top: 4.5em;
+  padding-bottom: 1.5em;
 }
 
