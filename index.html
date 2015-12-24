@@ -17,8 +17,8 @@
   <body ng-app="bridgeApp">
     <div ng-controller="cardsCtrl" class="container-fluid ">
       
-      <div class="row add-margin">
-        <div class="col-md-4">
+      <div class="row add-margin border">
+        <div class="col-md-4" border>
           <score info='score'></score>
         </div>
         <div class="col-md-4">
@@ -28,25 +28,34 @@
           <button btn-trump-click data-class="spades">&spades;</button><button btn-trump-click data-class="hearts">&hearts;</button><button btn-trump-click data-class="diamond">&diams;</button><button btn-trump-click data-class="club">&clubs;</button></button><button btn-trump-click data-class="notrump">NT</button>    
         </div>  
       </div>
+
+      <!--First Half row-->
+      <div class="row border">
+        <div ng-class="{'north-arrow':true}"></div>
+      </div>
+
       <!-- Second row -->
-      <div class="row add-margin; trick-pad-arrow">
-        <div class="col-md-4 west-cards-pad">
+      <div class="row trick-pad-arrow border">
+        <div class="col-md-4 west-cards-pad border">
           <img src="img/cards/{{card.value}}.svg" class="playing-svg-card hvr-float" ng-repeat="card in deck.w.cards" ng-click="selectCardWest($index)">
         </div>
-        <div class="north-arrow">
-        </div>  
-        <div class="col-md-4" style="position:relative">
+
+        <div class="col-md-4 border" style="position:relative">
           <div my-card ng-click="Trick()" style="position:relative;"></div>
         </div>
-        <div class="col-md-4">
+
+        <div class="col-md-4 border">
           <img src="img/cards/{{card.value}}.svg" class="playing-svg-card hvr-float" ng-repeat="card in deck.e.cards" ng-click="selectCardEast($index);">
-        </div> 
-        <div class="south-arrow">
         </div>  
       </div>
 
+      <!--Second Half row-->
+      <div class="row border">
+        <div ng-class="{'south-arrow':true}"></div>
+      </div>  
+
       <!-- Third row -->
-      <div class="row add-margin"> 
+      <div class="row border"> 
         <div class="col-md-4"></div>
         <div class="col-md-4">
           <img src="img/cards/{{card.value}}.svg" class="playing-svg-card hvr-float" ng-repeat="card in deck.s.cards" ng-click="selectCardSouth($index)">

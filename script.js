@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       }
       return obj;
     }
-    console.log(JSON.stringify($scope.deck));
+    console.log(JSON.stringify($scope.deck.n.leader));
     setPosition($scope.deck);
 
     $scope.selectCardNorth = function(aCard) {
@@ -240,11 +240,20 @@ document.addEventListener("DOMContentLoaded", function(event) {
         $scope.score.ew++;
       }
       return winner.dir; 
-    } 
+    }; 
 
     $scope.Trick  = function(){   
       console.log("winningTrick ", takeTrick(_.flatten($scope.trick), gameState.trumpSuit))  
-    }
+    };
+
+    $scope.isActive = true;
+
+    var displayGreenArrow = function(trick) {
+
+      
+    };
+
+
   }])
   .directive('myCard', function(){
     return {
