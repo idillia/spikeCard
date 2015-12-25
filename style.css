@@ -56,10 +56,19 @@ body {
   padding-left: 100px;
 }
 .trick-pad-arrow {
-/*  padding-top: 4.5em;
-  padding-bottom: 1.5em;*/
+  margin-top: 3em;
+  margin-bottom: 3em;
 }
-.border {
+.north-south-arrow-pad {
+  height:2em;
+}
+/*.border {
   border: 1px dotted black;
 }
+
+.border-side {
+  border-right:1px solid black; 
+}*/
+
+
 

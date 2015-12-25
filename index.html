@@ -17,12 +17,12 @@
   <body ng-app="bridgeApp">
     <div ng-controller="cardsCtrl" class="container-fluid ">
       
-      <div class="row add-margin border">
-        <div class="col-md-4" border>
+      <div class="row add-margin">
+        <div class="col-md-4" >
           <score info='score'></score>
         </div>
         <div class="col-md-4">
-          <img src="img/cards/{{card.value}}.svg" class="playing-svg-card hvr-float " ng-repeat="card in deck.n.cards" ng-click="selectCardNorth($index)" >
+          <img src="img/cards/{{card.value}}.svg" class="playing-svg-card" ng-class="{'hvr-float': isActiveNorth}" ng-repeat="card in deck.n.cards" ng-click="isActiveNorth && selectCardNorth($index)">
         </div> 
         <div class="col-md-4">
           <button btn-trump-click data-class="spades">&spades;</button><button btn-trump-click data-class="hearts">&hearts;</button><button btn-trump-click data-class="diamond">&diams;</button><button btn-trump-click data-class="club">&clubs;</button></button><button btn-trump-click data-class="notrump">NT</button>    
@@ -30,35 +30,39 @@
       </div>
 
       <!--First Half row-->
-      <div class="row border">
-        <div ng-class="{'north-arrow':true}"></div>
+      <div class="row">
+        <div ng-class="{'north-arrow':isActiveNorth}"></div>
       </div>
 
       <!-- Second row -->
-      <div class="row trick-pad-arrow border">
-        <div class="col-md-4 west-cards-pad border">
-          <img src="img/cards/{{card.value}}.svg" class="playing-svg-card hvr-float" ng-repeat="card in deck.w.cards" ng-click="selectCardWest($index)">
+      <div class="row trick-pad-arrow">
+        <div class="col-md-4 west-cards-pad">
+          <img src="img/cards/{{card.value}}.svg" class="playing-svg-card" ng-class="{'hvr-float': isActiveWest}" ng-repeat="card in deck.w.cards" ng-click="isActiveWest && selectCardWest($index)">
         </div>
 
-        <div class="col-md-4 border" style="position:relative">
-          <div my-card ng-click="Trick()" style="position:relative;"></div>
+        <div style="position:relative">
+          <div class="col-md-1 north-south-arrow-pad"><div  ng-class="{'west-arrow':isActiveWest}"></div></div>
+          <div class="col-md-2">
+            <div my-card ng-click="Trick()" style="position:relative;"></div>
+          </div>  
+          <div class="col-md-1 border"><div ng-class="{'east-arrow':isActiveEast}"></div></div>
         </div>
 
-        <div class="col-md-4 border">
-          <img src="img/cards/{{card.value}}.svg" class="playing-svg-card hvr-float" ng-repeat="card in deck.e.cards" ng-click="selectCardEast($index);">
+        <div class="col-md-4 west-cards-pad">
+          <img src="img/cards/{{card.value}}.svg" class="playing-svg-card" ng-class="{'hvr-float': isActiveEast}" ng-repeat="card in deck.e.cards" ng-click="isActiveEast && selectCardEast($index);">
         </div>  
       </div>
 
       <!--Second Half row-->
-      <div class="row border">
-        <div ng-class="{'south-arrow':true}"></div>
+      <div class="row">
+        <div ng-class="{'south-arrow':isActiveSouth}"></div>
       </div>  
 
       <!-- Third row -->
-      <div class="row border"> 
+      <div class="row"> 
         <div class="col-md-4"></div>
         <div class="col-md-4">
-          <img src="img/cards/{{card.value}}.svg" class="playing-svg-card hvr-float" ng-repeat="card in deck.s.cards" ng-click="selectCardSouth($index)">
+          <img src="img/cards/{{card.value}}.svg" class="playing-svg-card" ng-class="{'hvr-float': isActiveSouth}" ng-repeat="card in deck.s.cards" ng-click="isActiveSouth && selectCardSouth($index)">
         </div> 
         <div class="col-md-4"></div>
       </div>
