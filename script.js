@@ -150,73 +150,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
           $scope.isActiveSouth = true;
         }
       }
-    }
+    };
 
 
     $scope.isActiveWest = false;
     $scope.isActiveNorth = false;
     $scope.isActiveEast = false;
     $scope.isActiveSouth = false;
-    
-
-   // Remove fixed spade suit and add it dynamicly
-    
-    var leadingSuit = "spades";
-
-    var array = []
-    $scope.state = { selected: array};
-    
-    var disableSuits = function(hand) {
-   
-      for(var i=0; i<hand.length; i++){
-            if(hand[i].suit == leadingSuit) {
-              $scope.state.selected.push(i);
-            }
-        }
-        };
-
-
-
-    $scope.selectCardNorth = function(aCard) {
-      $scope.chosenCardNorth = $scope.deck.n.cards.splice(aCard,1);
-      $scope.chosenCardNorth[0].zIndex = zIdx++;
-      $scope.trick.push($scope.chosenCardNorth);
-      $scope.isActiveNorth = !$scope.isActiveNorth;
-      $scope.isActiveEast = !$scope.isActiveEast;
-
-      isTrickOver();
-    }
-
-    $scope.selectCardEast = function(aCard) {
-      $scope.chosenCardEast = $scope.deck.e.cards.splice(aCard,1);
-      $scope.chosenCardEast[0].zIndex = zIdx++;
-      $scope.trick.push($scope.chosenCardEast);
-      $scope.isActiveEast = !$scope.isActiveEast; 
-      $scope.isActiveSouth = !$scope.isActiveSouth;
-      isTrickOver();    
-    }
-
-    $scope.selectCardWest = function(aCard) {
-      $scope.chosenCardWest = $scope.deck.w.cards.splice(aCard,1);
-      $scope.chosenCardWest[0].zIndex = zIdx++;
-      $scope.trick.push($scope.chosenCardWest);
-      $scope.isActiveWest = !$scope.isActiveWest;
-      $scope.isActiveNorth = !$scope.isActiveNorth;
-      disableSuits($scope.deck.n.cards);  
-      isTrickOver();
-
-    }
-    
-    $scope.selectCardSouth = function(aCard) {
-      $scope.chosenCardSouth= $scope.deck.s.cards.splice(aCard,1);
-      $scope.chosenCardSouth[0].zIndex = zIdx++;
-      $scope.trick.push($scope.chosenCardSouth);
-      // var be = _.flatten($scope.trick);
-      // console.log(JSON.stringify(be));
-      $scope.isActiveSouth = !$scope.isActiveSouth;    
-      $scope.isActiveWest = !$scope.isActiveWest;
-      isTrickOver();
-    }  
 
     //Finding out winning card in a trick    
     var whichLeadingCard = function(trick) {
@@ -228,7 +168,61 @@ document.addEventListener("DOMContentLoaded", function(event) {
      }
       return leadingSuit;
     };
+    
     // console.log(whichLeadingCard(hand));
+    var array = []
+    $scope.state = { selected: array};
+
+    
+    var disableSuits = function(hand) {
+      var ls = whichLeadingCard(_.flatten($scope.trick));
+      for (var i=0; i<hand.length; i++) {
+        if (hand[i].suit == ls) {
+          $scope.state.selected.push(i);
+        }
+      }
+    };
+
+    $scope.selectCardNorth = function(aCard) {
+      $scope.chosenCardNorth = $scope.deck.n.cards.splice(aCard,1);
+      $scope.chosenCardNorth[0].zIndex = zIdx++;
+      $scope.trick.push($scope.chosenCardNorth);
+      $scope.isActiveNorth = !$scope.isActiveNorth;
+      $scope.isActiveEast = !$scope.isActiveEast;
+      disableSuits($scope.deck.e.cards);  
+      // isTrickOver();
+    }
+
+    $scope.selectCardEast = function(aCard) {
+      $scope.chosenCardEast = $scope.deck.e.cards.splice(aCard,1);
+      $scope.chosenCardEast[0].zIndex = zIdx++;
+      $scope.trick.push($scope.chosenCardEast);
+      $scope.isActiveEast = !$scope.isActiveEast; 
+      $scope.isActiveSouth = !$scope.isActiveSouth;
+      disableSuits($scope.deck.s.cards);  
+      // isTrickOver();    
+    }
+
+    $scope.selectCardWest = function(aCard) {
+      $scope.chosenCardWest = $scope.deck.w.cards.splice(aCard,1);
+      $scope.chosenCardWest[0].zIndex = zIdx++;
+      $scope.trick.push($scope.chosenCardWest);
+      $scope.isActiveWest = !$scope.isActiveWest;
+      $scope.isActiveNorth = !$scope.isActiveNorth;
+      disableSuits($scope.deck.n.cards);  
+      // isTrickOver();
+    }
+    
+    $scope.selectCardSouth = function(aCard) {
+      $scope.chosenCardSouth= $scope.deck.s.cards.splice(aCard,1);
+      $scope.chosenCardSouth[0].zIndex = zIdx++;
+      $scope.trick.push($scope.chosenCardSouth);
+      $scope.isActiveSouth = !$scope.isActiveSouth;    
+      $scope.isActiveWest = !$scope.isActiveWest;
+      disableSuits($scope.deck.w.cards);  
+      // isTrickOver();
+    }  
+
     var whichWinnerByRank = function(trick) {
       var max = 0
       var higherRankPosition = '';
@@ -315,7 +309,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     $scope.Trick  = function(){   
       // TODO: check that lenght should be at least 4 or just call isTrickOver
-      console.log("winningTrick ", takeTrick(_.flatten($scope.trick), gameState.trumpSuit))  
+      isTrickOver();  
     }; 
 
     var leaderArrow = function(trick) {
@@ -323,38 +317,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
         $scope.isActiveWest = !$scope.isActiveWest;
       } 
     };
-
-    leaderArrow();
-
-    // $scope.isActiveSuit = false;
-
-    // var disableSuit = function(hand, trick){
-    //   var isSuitInHand = false;
-    //   var leadingSuit = trick[0][0].suit;
-    //   var currentDir = trick[0][0].dir;
-    //   for (var prop in hand) {
-    //     for (var i = 0; i < hand[prop].cards.length; i++) {
-    //       if (leadingSuit == hand[prop].cards[i].suit) {
-    //         isSuitInHand = true;
-    //       }
-    //     }
-    //   }
-    //   console.log($scope.isActiveSuit); 
-    //   $scope.isActiveSuit = isSuitInHand; 
-    // };
-
-  
-   
-   
-    
-
-    
-
-    
-
-
-
-    
+ 
+    leaderArrow();    
   }])
   .directive('myCard', function(){
     return {
