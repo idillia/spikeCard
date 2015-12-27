@@ -120,10 +120,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
     setPosition($scope.deck);
 
+    // console.log(JSON.stringify($scope.deck));
+
     //TODO: figure out what do I pass as trick instead of $scope.trick.length
 
     var isTrickOver = function(trick) {
-      console.log($scope.trick.length);
       if ($scope.trick.length === 4) {
         var winner = takeTrick(_.flatten($scope.trick), gameState.trumpSuit);
         
@@ -156,6 +157,23 @@ document.addEventListener("DOMContentLoaded", function(event) {
     $scope.isActiveNorth = false;
     $scope.isActiveEast = false;
     $scope.isActiveSouth = false;
+    
+
+   // Remove fixed spade suit and add it dynamicly
+    
+    var leadingSuit = "spades";
+
+    var array = []
+    $scope.state = { selected: array};
+    
+    var disableSuits = function(hand) {
+   
+      for(var i=0; i<hand.length; i++){
+            if(hand[i].suit == leadingSuit) {
+              $scope.state.selected.push(i);
+            }
+        }
+        };
 
 
 
@@ -165,6 +183,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       $scope.trick.push($scope.chosenCardNorth);
       $scope.isActiveNorth = !$scope.isActiveNorth;
       $scope.isActiveEast = !$scope.isActiveEast;
+
       isTrickOver();
     }
 
@@ -183,7 +202,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       $scope.trick.push($scope.chosenCardWest);
       $scope.isActiveWest = !$scope.isActiveWest;
       $scope.isActiveNorth = !$scope.isActiveNorth;
-      disableSuit($scope.trick);
+      disableSuits($scope.deck.n.cards);  
       isTrickOver();
 
     }
@@ -192,14 +211,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
       $scope.chosenCardSouth= $scope.deck.s.cards.splice(aCard,1);
       $scope.chosenCardSouth[0].zIndex = zIdx++;
       $scope.trick.push($scope.chosenCardSouth);
-      var be = _.flatten($scope.trick);
-      console.log(JSON.stringify(be));
+      // var be = _.flatten($scope.trick);
+      // console.log(JSON.stringify(be));
       $scope.isActiveSouth = !$scope.isActiveSouth;    
       $scope.isActiveWest = !$scope.isActiveWest;
       isTrickOver();
     }  
-
-    console.log($scope.trick);
 
     //Finding out winning card in a trick    
     var whichLeadingCard = function(trick) {
@@ -309,15 +326,29 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     leaderArrow();
 
-    $scope.isActiveSuit = true;
+    // $scope.isActiveSuit = false;
 
-    var disableSuit = function(trick){
-      console.log(trick[0][0].suit);
-      var leadingSuit = trick[0][0].suit;
-      console.log(trick[0][0].dir)
-      
-      
-    };
+    // var disableSuit = function(hand, trick){
+    //   var isSuitInHand = false;
+    //   var leadingSuit = trick[0][0].suit;
+    //   var currentDir = trick[0][0].dir;
+    //   for (var prop in hand) {
+    //     for (var i = 0; i < hand[prop].cards.length; i++) {
+    //       if (leadingSuit == hand[prop].cards[i].suit) {
+    //         isSuitInHand = true;
+    //       }
+    //     }
+    //   }
+    //   console.log($scope.isActiveSuit); 
+    //   $scope.isActiveSuit = isSuitInHand; 
+    // };
+
+  
+   
+   
+    
+
+    
 
     
 

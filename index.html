@@ -22,7 +22,7 @@
           <score info='score'></score>
         </div>
         <div class="col-md-4">
-          <img src="img/cards/{{card.value}}.svg" class="playing-svg-card" ng-class="{'hvr-float': isActiveNorth}" ng-repeat="card in deck.n.cards" ng-click="isActiveNorth && selectCardNorth($index)">
+          <img src="img/cards/{{card.value}}.svg" class="playing-svg-card" ng-class="{'hvr-float': isActiveNorth && (state.selected.indexOf($index) >=0)}" ng-repeat="card in deck.n.cards" ng-click="isActiveNorth && selectCardNorth($index)">
         </div> 
         <div class="col-md-4">
           <button btn-trump-click data-class="spades">&spades;</button><button btn-trump-click data-class="hearts">&hearts;</button><button btn-trump-click data-class="diamond">&diams;</button><button btn-trump-click data-class="club">&clubs;</button></button><button btn-trump-click data-class="notrump">NT</button>    
