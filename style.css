@@ -4,6 +4,10 @@ body {
 .add-margin {
   margin-top: 2em;
 }
+
+.cards-margin-left {
+  margin-left: -3em;
+}
 .north-arrow {
    margin: 0 auto;
    width: 30px;
@@ -52,9 +56,9 @@ body {
 .hvr-float:active {
   transform: translateY(-10px);
 }
-.west-cards-pad {
+/*.west-cards-pad {
   padding-left: 100px;
-}
+}*/
 .trick-pad-arrow {
   margin-top: 3em;
   margin-bottom: 3em;
@@ -69,6 +73,33 @@ body {
 .border-side {
   border-right:1px solid black; 
 }*/
+.add-z {
+  background-color: red;
+}
+.west {
+  position: absolute;
+  top:-10px;
+  left:0px;
+  width:100px; 
+}
+.north {
+   position: absolute;
+   top: -45px;
+   left:50px;
+   width:100px; 
+}
+.east {
+   position: absolute;
+   top: 0px;
+   right:90px;
+   width:100px; 
+}
+.south {
+  position: absolute;
+  top: 20px;
+  left:50px;
+  width:100px;
+}
 
 
 

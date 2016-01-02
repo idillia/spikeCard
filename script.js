@@ -1,3 +1,20 @@
+// Figure out how to add zindex to hands
+// Fo how to move hands to directives
+// Fo how to resize hand cards and trick properly
+// Add ability to keep cards closed or open
+// Fix arrow to right place when trick is over
+// Add positions
+// Add ability to add points and caluclate how many tricks could be won
+// Add databast to addf premade hands
+// Add explonation to how to play cards
+// Write rules for playing cards
+// Code those rules
+// Check proper resizing
+// Create lessons
+// Create ability to add users
+ 
+
+
 document.addEventListener("DOMContentLoaded", function(event) { 
   var lastResizedWidth = 0;
   window.onresize = resize;
@@ -8,14 +25,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
     // console.log(svgCard);
     if(Math.abs(window.innerWidth - lastResizedWidth) > 50) {
       svgCard.forEach(function(el, i, arr) {
-        el.style.width = window.innerWidth/20;
-        el.style.height = window.innerWidth/15;
-        el.style.marginLeft = -70.5 + "px";
+        el.style.width = window.innerWidth/15;
+        el.style.height = window.innerWidth/10;
+        // el.style.marginLeft = -70.5 + "px";
         lastResizedWidth = window.innerWidth;
       });
     }
   }
-  resize();
+
 
   angular.module('bridgeApp', [])
   .directive('btnTrumpClick', ['gameState', function(gameState){
@@ -27,13 +44,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
           console.log(gameState)
         })
       }
-    }
+    };
+  }])
+  .directive('hands', ['gameState', function(gameState){
+    return {
+      restrict: 'E',    
+      templateUrl: 'view/hands.html'
+    };
   }])
   .factory('gameState', function(){
     return {
       trumpSuit: null
       // position: null
-    }
+    };
   })
   .controller('cardsCtrl', ['$scope', 'gameState', function($scope, gameState){
     var zIdx = 0;
@@ -121,6 +144,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
     setPosition($scope.deck);
 
     // console.log(JSON.stringify($scope.deck));
+    var array = [99]
+    $scope.state = { selected: array};
 
     //TODO: figure out what do I pass as trick instead of $scope.trick.length
 
@@ -133,21 +158,25 @@ document.addEventListener("DOMContentLoaded", function(event) {
           $scope.isActiveNorth = false;
           $scope.isActiveEast = false;
           $scope.isActiveSouth = false;
+          $scope.state = { selected: array};
         } else if (winner === "n") {
           $scope.isActiveNorth = true;
           $scope.isActiveWest = false;
           $scope.isActiveEast = false;
           $scope.isActiveSouth = false;
+          $scope.state = { selected: array};
         } else if (winner === "e") {
           $scope.isActiveWest = false;
           $scope.isActiveNorth = false;
           $scope.isActiveEast = true;
           $scope.isActiveSouth = false;
+          $scope.state = { selected: array};
         } else if (winner === "s") {
           $scope.isActiveWest = false;
           $scope.isActiveNorth = false;
           $scope.isActiveEast = false;
           $scope.isActiveSouth = true;
+          $scope.state = { selected: array};
         }
       }
     };
@@ -170,28 +199,34 @@ document.addEventListener("DOMContentLoaded", function(event) {
     };
     
     // console.log(whichLeadingCard(hand));
-    var array = []
-    $scope.state = { selected: array};
-
-    
+  
     var disableSuits = function(hand) {
-      var ls = whichLeadingCard(_.flatten($scope.trick));
-      for (var i=0; i<hand.length; i++) {
-        if (hand[i].suit == ls) {
-          $scope.state.selected.push(i);
+      if (!$scope.isActiveWest) {
+        var ls = whichLeadingCard(_.flatten($scope.trick));
+        // console.log(ls);
+        for (var i = 0; i<hand.length; i++) {
+          if (hand[i].suit == ls) {
+            // console.log(hand[i].suit)
+            $scope.state.selected.push(i);
+            // console.log($scope.state.selected)
+          }
         }
       }
+       // console.log($scope.state.selected.indexOf()) 
     };
-
+    
     $scope.selectCardNorth = function(aCard) {
       $scope.chosenCardNorth = $scope.deck.n.cards.splice(aCard,1);
       $scope.chosenCardNorth[0].zIndex = zIdx++;
       $scope.trick.push($scope.chosenCardNorth);
       $scope.isActiveNorth = !$scope.isActiveNorth;
       $scope.isActiveEast = !$scope.isActiveEast;
+      array = [99];
+      $scope.state = { selected: array};
       disableSuits($scope.deck.e.cards);  
+      console.log($scope.state.selected)
       // isTrickOver();
-    }
+    };
 
     $scope.selectCardEast = function(aCard) {
       $scope.chosenCardEast = $scope.deck.e.cards.splice(aCard,1);
@@ -199,7 +234,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
       $scope.trick.push($scope.chosenCardEast);
       $scope.isActiveEast = !$scope.isActiveEast; 
       $scope.isActiveSouth = !$scope.isActiveSouth;
+      array = [99];
+      $scope.state = { selected: array};
       disableSuits($scope.deck.s.cards);  
+      console.log($scope.state.selected) 
       // isTrickOver();    
     }
 
@@ -209,7 +247,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
       $scope.trick.push($scope.chosenCardWest);
       $scope.isActiveWest = !$scope.isActiveWest;
       $scope.isActiveNorth = !$scope.isActiveNorth;
-      disableSuits($scope.deck.n.cards);  
+      array = [99];
+      $scope.state = { selected: array};
+      disableSuits($scope.deck.n.cards);
+      console.log($scope.state.selected)
+ 
+
       // isTrickOver();
     }
     
@@ -219,7 +262,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
       $scope.trick.push($scope.chosenCardSouth);
       $scope.isActiveSouth = !$scope.isActiveSouth;    
       $scope.isActiveWest = !$scope.isActiveWest;
-      disableSuits($scope.deck.w.cards);  
+      array = [99]
+      $scope.state = { selected: array};
+      disableSuits($scope.deck.w.cards);
+      console.log($scope.state.selected)
+ 
       // isTrickOver();
     }  
 
@@ -312,17 +359,21 @@ document.addEventListener("DOMContentLoaded", function(event) {
       isTrickOver();  
     }; 
 
-    var leaderArrow = function(trick) {
+    var leaderArrow = function() {
       if ($scope.deck.w.leader == "w") {
         $scope.isActiveWest = !$scope.isActiveWest;
       } 
     };
  
-    leaderArrow();    
+    leaderArrow(); 
+         
   }])
   .directive('myCard', function(){
     return {
-      template: '<img src="img/cards/{{card.value}}.svg" style="width:100px; z-index: {{card.zIndex}}; position: absolute; top:-10px; left:0px;" ng-repeat="card in chosenCardWest"><img src="img/cards/{{card.value}}.svg" style="width:100px; z-index: {{card.zIndex}}; position: absolute; top: -45px; left:50px;" ng-repeat="card in chosenCardNorth"><img src="img/cards/{{card.value}}.svg" style="width:100px; z-index: {{card.zIndex}}; position: absolute; top: 0px; right:90px;" ng-repeat="card in chosenCardEast"><img src="img/cards/{{card.value}}.svg" style="width:100px; z-index: {{card.zIndex}}; position: absolute; top: 20px; left:50px;" ng-repeat="card in chosenCardSouth">'
+      template: '<img src="img/cards/{{card.value}}.svg" class="west playing-svg-card"; style="z-index: {{card.zIndex}};" ng-repeat="card in chosenCardWest">' + 
+                '<img src="img/cards/{{card.value}}.svg" class="north playing-svg-card"; style="z-index: {{card.zIndex}};" ng-repeat="card in chosenCardNorth">' +
+                '<img src="img/cards/{{card.value}}.svg" class="east playing-svg-card"; style="z-index: {{card.zIndex}};" ng-repeat="card in chosenCardEast">' +
+                '<img src="img/cards/{{card.value}}.svg" class="south playing-svg-card"; style="z-index: {{card.zIndex}};" ng-repeat="card in chosenCardSouth">'
     }
   })
   .directive('score', function($compile) {
