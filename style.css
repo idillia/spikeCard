@@ -114,6 +114,9 @@ body {
   left:50px;
   width:100px;
 }
+.cards-margin-top {
+  margin-top: -40%;
+}
 
 
 @media only screen and (min-device-width: 413px) and (max-device-width: 415px) { iPhone6+ Styles }
@@ -126,7 +129,7 @@ body {
     margin-left:-29.7%;
   }
   img {
-      max-width: 35%;
+      max-width: 55%;
       height: auto;
       width: auto; 
   }
@@ -136,16 +139,15 @@ body {
   .cards-margin-left {
     margin-left:-26%;
   }
+/*  .cards-maring-top {
+    margin-top:-15%;
+  }*/
   img {
       max-width: 31.6%;
       height: auto;
       width: auto;
       
   }
-}
-rect {
-  /* doesn't work in IE */
-  transform: rotate(45deg);
 }
 
 

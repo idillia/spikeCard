@@ -93,6 +93,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
     };
   })
   .controller('cardsCtrl', ['$scope', 'gameState', function($scope, gameState){
+    $scope.rotate = function (angle) {
+        $scope.angle = angle;
+    };
     var zIdx = 0;
     var Card = function(value, rank, suit, zIndex, dir) {
       this.value = value;
@@ -400,6 +403,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     };
  
     leaderArrow(); 
+    
          
   }])
   .directive('myCard', function(){
@@ -419,6 +423,23 @@ document.addEventListener("DOMContentLoaded", function(event) {
       template: '<div>North-South: {{content.ns}}, East-West: {{content.ew}}'
     }
   })
+  .directive('rotate', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            scope.$watch(attrs.degrees, function (rotateDegrees) {
+                console.log(rotateDegrees);
+                var r = 'rotate(' + rotateDegrees + 'deg)';
+                element.css({
+                    '-moz-transform': r,
+                    '-webkit-transform': r,
+                    '-o-transform': r,
+                    '-ms-transform': r
+                });
+            });
+        }
+    }
+});
 });
 
 
