@@ -16,25 +16,53 @@
 
 
 document.addEventListener("DOMContentLoaded", function(event) { 
-  var lastResizedWidth = 0;
-  window.onresize = resize;
-  function resize() {
-    var svgCard;
-    svgCard = document.getElementsByClassName("playing-svg-card");
-    svgCard = Array.prototype.slice.call(svgCard);
-    // console.log(svgCard);
-    if(Math.abs(window.innerWidth - lastResizedWidth) > 50) {
-      svgCard.forEach(function(el, i, arr) {
-        el.style.width = window.innerWidth/15;
-        el.style.height = window.innerWidth/10;
-        // el.style.marginLeft = -70.5 + "px";
-        lastResizedWidth = window.innerWidth;
-      });
-    }
-  }
+  // var lastResizedWidth = 0;
+  // window.onresize = resize;
+  // function resize() {
+  //   var svgCard;
+  //   svgCard = document.getElementsByClassName("playing-svg-card");
+  //   svgCard = Array.prototype.slice.call(svgCard);
+  //   // console.log(svgCard);
+  //   if(Math.abs(window.innerWidth - lastResizedWidth) > 50) {
+  //     svgCard.forEach(function(el, i, arr) {
+  //       el.style.width = window.innerWidth/15;
+  //       el.style.height = window.innerWidth/10;
+  //       // el.style.marginLeft = -70.5 + "px";
+  //       lastResizedWidth = window.innerWidth;
+  //     });
+  //   }
+  // }
 
 
   angular.module('bridgeApp', [])
+  // .directive('resize', function ($window) {
+  //   return function (scope, element, attr) {
+
+  //       var w = angular.element($window);
+  //       scope.$watch(function () {
+  //         // console.log(w[0])
+  //           return {
+  //               'h': w[0].innerHeight, 
+  //               'w': w[0].innerWidth
+  //           };
+  //       }, function (newValue, oldValue) {
+  //           scope.windowHeight = newValue.h;
+  //           scope.windowWidth = newValue.w;
+
+  //           scope.resizeWithOffset = function (offsetH) {
+  //               scope.$eval(attr.notifier);
+  //               return { 
+  //                   'height': (newValue.h - offsetH) + 'px'                    
+  //               };
+  //           };
+
+  //       }, true);
+
+  //       w.bind('resize', function () {
+  //           scope.$apply();
+  //       });
+  //   }
+  // })
   .directive('btnTrumpClick', ['gameState', function(gameState){
     return {
       link: function(scope, element, attr) {
@@ -48,7 +76,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
   }])
   .directive('hands', ['gameState', function(gameState){
     return {
-      restrict: 'E',    
+      restrict: 'E', 
+      link: function(scope, element, attr) {
+        console.log(document.getElementsByClassName('playing-svg-card'));
+        var arr = document.getElementsByClassName('playing-svg-card');
+        console.log(angular.isArray(arr))
+       
+      },   
       templateUrl: 'view/hands.html'
     };
   }])

@@ -1,14 +1,30 @@
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+html, body {
+/*  height:100%;
+  width: 100%;*/
+}
 body {
-  font-size: 2.5em;
+  /*line-height: 1.6;*/
+  background-color: #fff;
+} 
+
+body {
+/*  font-size: 2.5em;
+*/  font-family: sans-serif;
+  color: #222;
 } 
 .add-margin {
-  margin-top: 2em;
+  margin-top: 0.5em;
 }
 
-.cards-margin-left {
-  margin-left: -3em;
-}
-.north-arrow {
+/*.cards-margin-left {
+  margin-left: -2em;
+}*/
+/*.north-arrow {
    margin: 0 auto;
    width: 30px;
    border-style: solid;
@@ -39,7 +55,7 @@ body {
   border-style: solid;
   border-width: 34.6px 20px 0 20px;
   border-color: #55ff00 transparent transparent transparent;
-}
+}*/
 .hvr-float {
   display: inline-block;
   vertical-align: middle;
@@ -59,13 +75,13 @@ body {
 /*.west-cards-pad {
   padding-left: 100px;
 }*/
-.trick-pad-arrow {
+/*.trick-pad-arrow {
   margin-top: 3em;
   margin-bottom: 3em;
-}
-.north-south-arrow-pad {
+}*/
+/*.north-south-arrow-pad {
   height:2em;
-}
+}*/
 /*.border {
   border: 1px dotted black;
 }
@@ -73,9 +89,7 @@ body {
 .border-side {
   border-right:1px solid black; 
 }*/
-.add-z {
-  background-color: red;
-}
+
 .west {
   position: absolute;
   top:-10px;
@@ -99,6 +113,39 @@ body {
   top: 20px;
   left:50px;
   width:100px;
+}
+
+
+@media only screen and (min-device-width: 413px) and (max-device-width: 415px) { iPhone6+ Styles }
+@media only screen and (min-device-width: 374px) and (max-device-width: 376px) { iPhone6 Styles }
+@media only screen and (min-device-width: 359px) and (max-device-width: 361px) { iPhone6+ Alt Styles }
+@media only screen and (min-device-width: 319px) and (max-device-width: 321px) { iPhone5 or less Styles }
+
+@media screen and (orientation:portrait) {
+  .cards-margin-left {
+    margin-left:-29.7%;
+  }
+  img {
+      max-width: 35%;
+      height: auto;
+      width: auto; 
+  }
+}
+
+@media screen and (orientation:landscape) {
+  .cards-margin-left {
+    margin-left:-26%;
+  }
+  img {
+      max-width: 31.6%;
+      height: auto;
+      width: auto;
+      
+  }
+}
+rect {
+  /* doesn't work in IE */
+  transform: rotate(45deg);
 }
 
 
