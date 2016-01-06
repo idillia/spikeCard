@@ -1,45 +1,59 @@
-<div class="row add-margin">
-  <div class="col-xs-4"></div>
-  <div class="col-xs-4">
-    <img src="img/cards/{{card.value}}.svg" class="playing-svg-card" ng-class="[{'hvr-float': isActiveNorth && (state.selected.indexOf($index) >=0)}, {'cards-margin-left': $index !== 0}]" ng-repeat="card in deck.n.cards" ng-click="((isActiveNorth  && (state.selected.indexOf($index) >=0)&& selectCardNorth($index)))" ng-style="{'z-index': $index}">
+<div class="row nopadding">
+  <div class="col-xs-3"></div>
+  <div class="col-xs-6">
+    <img src="img/cards/{{card.value}}.svg" class="north" ng-class="[{'hvr-float': isActiveNorth && (state.selected.indexOf($index) >=0)}, {'cards-margin-left': $index != 0}]" ng-repeat="card in deck.n.cards" ng-click="isActiveNorth && selectCardNorth($index)" ng-style="{'z-index': $index}">
   </div> 
-  <div class="col-xs-4"></div>  
+  <div class="col-xs-3"></div>  
 </div>
 
 <!--First Half row-->
-<div class="row">
-  <div ng-class="{'north-arrow':isActiveNorth}"></div>
+<div class="row nopadding border">
+  <div class="empty-div" ng-class="{'north-arrow':isActiveNorth}"></div>
+  <!-- <div class="north-arrow empty-div" ng-show="isActiveNorth"></div> -->
+
 </div>
 
 <!-- Second row -->
-<div class="row trick-pad-arrow">
-  <div class="col-xs-4 west-cards-pad">
-    <img degrees='angle' rotate src="img/cards/{{card.value}}.svg" class="cards-margin-top" ng-class="[{'hvr-float': isActiveWest || (state.selected.indexOf($index) >=0)}, {'cards-margin-top': true}]" ng-repeat="card in deck.w.cards" ng-click="isActiveWest && selectCardWest($index)">
+<div class="row nopadding border">
+  <div class="col-xs-3">
+    <img src="img/cards/{{card.value}}.svg" class="west" ng-class="[{'hvr-float': isActiveWest || (state.selected.indexOf($index) >=0)}, {'cards-margin-top': $index != 0}]" ng-repeat="card in deck.w.cards" ng-click="isActiveWest && selectCardWest($index)">
   </div>
 
   <div style="position:relative">
-    <div class="col-xs-1 north-south-arrow-pad"><div  ng-class="{'west-arrow':isActiveWest}"></div></div>
-    <div class="col-xs-2">
-      <div my-card ng-click="Trick()" style="position:relative;"></div>
+    <div class="col-xs-1 border">
+      <div ng-class="{'west-arrow':isActiveWest}"></div>
+      <!-- <div class="west-arrow"></div> -->
+
+    </div>
+    <div class="col-xs-4">
+      <div my-card ng-click="Trick()" style="position:relative; border:solid 1px black">
+    </div>
     </div>  
-    <div class="col-xs-1 border"><div ng-class="{'east-arrow':isActiveEast}"></div></div>
+    <div class="col-xs-1 border">
+      <div ng-class="{'east-arrow':isActiveEast}"></div>
+      <!-- <div class="east-arrow"></div> -->
+
+    </div>
   </div>
 
-  <div class="col-xs-4 west-cards-pad">
-    <img src="img/cards/{{card.value}}.svg" class="playing-svg-card" ng-class="[{'hvr-float': isActiveEast && (state.selected.indexOf($index) >=0)}, {'cards-margin-left': $index !== 0}]" ng-repeat="card in deck.e.cards" ng-click="((isActiveEast  && (state.selected.indexOf($index) >=0)&& selectCardEast($index)))">
+  <div class="col-xs-3">
+    <img  src="img/cards/{{card.value}}.svg" class="east" ng-class="[{'hvr-float': isActiveEast && (state.selected.indexOf($index) >=0)}, {'cards-margin-top': $index != 0}]" ng-repeat="card in deck.e.cards" ng-click="isActiveEast && selectCardEast($index)">
+    <!-- <img  src="img/cards/{{card.value}}.svg" class="east" ng-class="[{'hvr-float': isActiveEast && (state.selected.indexOf($index) >=0)}, {'cards-margin-top': $index != 0}]" ng-repeat="card in deck.e.cards" ng-click="((isActiveEast  && (state.selected.indexOf($index) >=0)&& selectCardEast($index)))"> -->
   </div>  
 </div>
 
 <!--Second Half row-->
-<div class="row">
-  <div ng-class="{'south-arrow':isActiveSouth}"></div>
+<div class="row nopadding border">
+  <div class="empty-div" ng-class="{'south-arrow':isActiveSouth}"></div>
+  <!-- <div class="south-arrow"></div> -->
+
 </div>  
 
 <!-- Third row -->
-<div class="row"> 
-  <div class="col-xs-4"></div>
-  <div class="col-xs-4">
-    <img src="img/cards/{{card.value}}.svg" class="playing-svg-card" ng-class="[{'hvr-float': isActiveSouth && (state.selected.indexOf($index) >=0)}, {'cards-margin-left': $index !== 0}]" ng-repeat="card in deck.s.cards" ng-click="((isActiveSouth && (state.selected.indexOf($index) >=0) && selectCardSouth($index)))">
+<div class="row nopadding"> 
+  <div class="col-xs-3"></div>
+  <div class="col-xs-6">
+    <img src="img/cards/{{card.value}}.svg" class="south" ng-class="[{'hvr-float': isActiveSouth && (state.selected.indexOf($index) >=0)}, {'cards-margin-left': $index != 0}]" ng-repeat="card in deck.s.cards" ng-click="isActiveSouth && selectCardSouth($index)">
   </div> 
-  <div class="col-xs-4"></div>
+  <div class="col-xs-3"></div>
 </div>
