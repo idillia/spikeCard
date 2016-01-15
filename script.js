@@ -131,13 +131,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
     setPosition($scope.deck);
 
     // console.log(JSON.stringify($scope.deck));
-    var array = [99]
+    var array = []
     $scope.state = { selected: array};
 
     //TODO: figure out what do I pass as trick instead of $scope.trick.length
 
     var isTrickOver = function(trick) {
       if ($scope.trick.length === 4) {
+        console.log("trick is over");
         var winner = takeTrick(_.flatten($scope.trick), gameState.trumpSuit);
         
         if (winner === "w") {
@@ -166,6 +167,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
           $scope.state = { selected: array};
         }
       }
+      else {
+        console.log("trick is NOT over");
+        return false;
+      }  
     };
 
 
@@ -188,19 +193,37 @@ document.addEventListener("DOMContentLoaded", function(event) {
     // console.log(whichLeadingCard(hand));
   
     var disableSuits = function(hand) {
-      if (!$scope.isActiveWest) {
+      if (!$scope.isActiveWest || !isTrickOver()) {
         var ls = whichLeadingCard(_.flatten($scope.trick));
         // console.log(ls);
         for (var i = 0; i<hand.length; i++) {
           if (hand[i].suit == ls) {
             // console.log(hand[i].suit)
             $scope.state.selected.push(i);
-            // console.log($scope.state.selected)
+            console.log($scope.state.selected)
           }
         }
       }
        // console.log($scope.state.selected.indexOf()) 
     };
+
+    $scope.inSelectedArray = function(index) {
+      if ($scope.state.selected.length > 0) {
+        if ($scope.state.selected.indexOf(index) >= 0) {
+          console.log("Index is in array. Disable everything else")
+          return true;
+        }
+        else {
+          console.log($scope.state.selected);
+          console.log("Index is NOT in array. Enable everything!")
+          return false;
+        }  
+      }
+      else {
+        console.log("Array is empty. Enable everything!")
+        return true;
+      }
+    } 
     
     $scope.selectCardNorth = function(aCard) {
       $scope.chosenCardNorth = $scope.deck.n.cards.splice(aCard,1);
@@ -208,11 +231,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
       $scope.trick.push($scope.chosenCardNorth);
       $scope.isActiveNorth = !$scope.isActiveNorth;
       $scope.isActiveEast = !$scope.isActiveEast;
-      array = [99];
+      isTrickOver();
+      array = [];
       $scope.state = { selected: array};
       disableSuits($scope.deck.e.cards);  
-      console.log($scope.state.selected)
-      // isTrickOver();
+      console.log("previous north array is erased", $scope.state.selected)
+      
     };
 
     $scope.selectCardEast = function(aCard) {
@@ -221,11 +245,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
       $scope.trick.push($scope.chosenCardEast);
       $scope.isActiveEast = !$scope.isActiveEast; 
       $scope.isActiveSouth = !$scope.isActiveSouth;
-      array = [99];
+      isTrickOver(); 
+      array = [];
       $scope.state = { selected: array};
       disableSuits($scope.deck.s.cards);  
-      console.log($scope.state.selected) 
-      // isTrickOver();    
+      console.log("previous east array is erased", $scope.state.selected) 
+         
     }
 
     $scope.selectCardWest = function(aCard) {
@@ -234,13 +259,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
       $scope.trick.push($scope.chosenCardWest);
       $scope.isActiveWest = !$scope.isActiveWest;
       $scope.isActiveNorth = !$scope.isActiveNorth;
-      array = [99];
+      isTrickOver();
+      array = [];
       $scope.state = { selected: array};
       disableSuits($scope.deck.n.cards);
-      console.log($scope.state.selected)
- 
-
-      // isTrickOver();
+      console.log("previous west array is erased", $scope.state.selected)
+     
     }
     
     $scope.selectCardSouth = function(aCard) {
@@ -249,12 +273,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
       $scope.trick.push($scope.chosenCardSouth);
       $scope.isActiveSouth = !$scope.isActiveSouth;    
       $scope.isActiveWest = !$scope.isActiveWest;
-      array = [99]
+      isTrickOver();
+      array = []
       $scope.state = { selected: array};
       disableSuits($scope.deck.w.cards);
-      console.log($scope.state.selected)
+      console.log("previous south array is erased", "west has: ", $scope.state.selected)
  
-      // isTrickOver();
+      
     }  
 
     var whichWinnerByRank = function(trick) {
@@ -352,7 +377,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       } 
     };
  
-    leaderArrow(); 
+    leaderArrow();
 
          
   }])
@@ -370,7 +395,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       scope: {
         content: '=info'
       },
-      template: '<div>North-South: {{content.ns}}, East-West: {{content.ew}}'
+      template: '<h3>North-South: {{content.ns}}, East-West: {{content.ew}}</h3>'
     }
   })
 });
