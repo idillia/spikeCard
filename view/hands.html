@@ -1,7 +1,7 @@
 <div class="row nopadding">
   <!-- <div class="col-xs-3"></div> -->
   <div class="col-xs-12">
-    <img src="img/cards/{{card.value}}.svg" class="north pseudo-hvr-float" ng-class="[{'hvr-float': isActiveNorth && inSelectedArray($index)}, {'cards-margin-left': $index != 0}]" ng-repeat="card in deck.n.cards " ng-click="isActiveNorth && inSelectedArray($index) && selectCardNorth($index)" ng-style="{'z-index': $index}">
+    <div north-hand><div north-cards nested-data="deck.n.cards"></div><div>
   </div> 
   <!-- <div class="col-xs-3"></div>  --> 
 </div>
@@ -16,8 +16,8 @@
 <!-- Second row -->
 <div class="row nopadding">
   <div class="col-xs-3" >
-    <img src="img/cards/{{card.value}}.svg" class="west" ng-class="[{'hvr-float': isActiveWest && inSelectedArray($index)}, {'cards-margin-top': $index !== 0}]" ng-repeat="card in deck.w.cards" ng-click="isActiveWest && inSelectedArray($index) && selectCardWest($index)">
-  </div>
+<!--     <img src="img/cards/{{card.value}}.svg" class="west" ng-class="[{'hvr-float': isActiveWest && inSelectedArray($index)}, {'cards-margin-top': $index !== 0}]" ng-repeat="card in deck.w.cards" ng-click="isActiveWest && inSelectedArray($index) && selectCardWest($index)">
+ -->  </div>
 
   <div style="position:relative">
     <div class="col-xs-1">
@@ -37,9 +37,8 @@
   </div>
 
   <div class="col-xs-3">
-    <img  src="img/cards/{{card.value}}.svg" class="east pseudo-hvr-float" ng-class="[{'hvr-float': isActiveEast && (state.selected.indexOf($index) >=0)}, {'cards-margin-top': $index !== 0}]" ng-repeat="card in deck.e.cards" ng-click="isActiveEast && inSelectedArray($index) && selectCardEast($index)">
-    <!-- <img  src="img/cards/{{card.value}}.svg" class="east" ng-class="[{'hvr-float': isActiveEast && (state.selected.indexOf($index) >=0)}, {'cards-margin-top': $index != 0}]" ng-repeat="card in deck.e.cards" ng-click="((isActiveEast  && (state.selected.indexOf($index) >=0)&& selectCardEast($index)))"> -->
-  </div>  
+<!--     <img  src="img/cards/{{card.value}}.svg" class="east pseudo-hvr-float" ng-class="[{'hvr-float': isActiveEast && (state.selected.indexOf($index) >=0)}, {'cards-margin-top': $index !== 0}]" ng-repeat="card in deck.e.cards" ng-click="isActiveEast && inSelectedArray($index) && selectCardEast($index)">
+ -->  </div>  
 </div>
 
 <!--Second Half row-->
@@ -53,7 +52,7 @@
 <div class="row nopadding"> 
   <div class="col-xs-3"></div>
   <div class="col-xs-6">
-    <img src="img/cards/{{card.value}}.svg" class="south pseudo-hvr-float" ng-class="[{'hvr-float': isActiveSouth && (state.selected.indexOf($index) >=0)}, {'cards-margin-left': $index != 0}]" ng-repeat="card in deck.s.cards" ng-click="isActiveSouth  && inSelectedArray($index) && selectCardSouth($index)">
-  </div> 
+<!--     <img src="img/cards/{{card.value}}.svg" class="south pseudo-hvr-float" ng-class="[{'hvr-float': isActiveSouth && (state.selected.indexOf($index) >=0)}, {'cards-margin-left': $index != 0}]" ng-repeat="card in deck.s.cards" ng-click="isActiveSouth  && inSelectedArray($index) && selectCardSouth($index)">
+ -->  </div> 
   <div class="col-xs-3"></div>
 </div>

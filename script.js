@@ -398,6 +398,33 @@ document.addEventListener("DOMContentLoaded", function(event) {
       template: '<h3>North-South: {{content.ns}}, East-West: {{content.ew}}</h3>'
     }
   })
+  .directive('northHand', function(){
+    return {
+      restrict: "A",
+      transclude: true,
+      template: "<div><div ng-transclude></div></div>"
+
+      // template: '<div style="background:red">Hello<div>'
+      // template: '<img src="img/cards/{{card.value}}.svg" class="north pseudo-hvr-float" ng-class="[{\'hvr-float\': isActiveNorth && inSelectedArray($index)}, {\'cards-margin-left\': $index != 0}]" ng-repeat="card in deck.n.cards " ng-click="isActiveNorth && inSelectedArray($index) && selectCardNorth($index)" ng-style="{\'z-index\': $index}">'
+    }
+  })
+  .directive('northCards', function(){
+    var linker = function(scope, element, attrs) {
+      console.log(element[0].children);
+      $(element).click(
+        function() {
+          console.log("I heard the click")
+          $(this).css('clip', 'rect(0, 100px, 200px, 0)');  
+        })
+    };
+
+    return {
+      restrict: "A",
+      link: linker,
+      template: '<img src="img/cards/{{card.value}}.svg" class="north pseudo-hvr-float" ng-class="[{\'hvr-float\': isActiveNorth && inSelectedArray($index)}, {\'cards-margin-left\': $index != 0}]" ng-repeat="card in deck.n.cards " ng-style="{\'z-index\': $index}">'
+    }  
+    
+  })
 });
 
 
